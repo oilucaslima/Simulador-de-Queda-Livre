@@ -27,8 +27,11 @@ def ler_dados_arduino(arduino):
     # Exibe os valores capturados no final
     if valores:
         includes.messagebox.showinfo("Valores Recebidos", f"Valores capturados: {valores}")
+        return valores
     else:
         includes.messagebox.showwarning("Aviso", "Nenhum valor foi recebido.")
+        return None
+
 
 def iniciar_arduino(arduino):
     try:
@@ -36,15 +39,18 @@ def iniciar_arduino(arduino):
         arduino.write(b'START\n')
         
         includes.messagebox.showinfo("Informação", "Comando START enviado com sucesso!")
-        
-        # Inicia a leitura dos dados em uma thread separada
-        thread_leitura = includes.Thread(target=ler_dados_arduino(arduino), daemon=True)
-        thread_leitura.start()
-
+        resultado = ler_dados_arduino(arduino)
+        return resultado
     except Exception as e:
         includes.messagebox.showerror("Erro", f"Erro ao enviar comando: {e}")
+        return None
 
-def fechar_janela(arduino,root):
-    arduino.close()
+def fechar_janela(arduino, root):
+    # Fecha a porta serial
+    if arduino.is_open:
+        arduino.close()
+    # Fecha a janela
+    root.quit()
     root.destroy()
+
 

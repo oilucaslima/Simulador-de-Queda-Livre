@@ -1,10 +1,11 @@
 import includes
+import sys
 
 def ler_dados_arduino(arduino):
     cont = 0
     valores = [] 
 
-    while cont < 5:
+    while cont < 7:
         try:
             linha = arduino.readline()
             if linha:
@@ -32,12 +33,10 @@ def ler_dados_arduino(arduino):
         includes.messagebox.showwarning("Aviso", "Nenhum valor foi recebido.")
         return None
 
-
 def iniciar_arduino(arduino):
     try:
         # Envia o comando "START" para o Arduino
         arduino.write(b'START\n')
-        
         includes.messagebox.showinfo("Informação", "Comando START enviado com sucesso!")
         resultado = ler_dados_arduino(arduino)
         return resultado
@@ -45,12 +44,21 @@ def iniciar_arduino(arduino):
         includes.messagebox.showerror("Erro", f"Erro ao enviar comando: {e}")
         return None
 
+def calcular_velocidade(tempo, posicao):
+    velocidades = []
+    for i in range(len(tempo)):
+        velocidade = posicao[i] / tempo[i] 
+        velocidades.append(velocidade)
+    return velocidades
+
 def fechar_janela(arduino, root):
-    # Fecha a porta serial
+    print("Fechando a janela...")
     if arduino.is_open:
+        print("Fechando a porta serial...")
         arduino.close()
-    # Fecha a janela
-    root.quit()
-    root.destroy()
+    print("Fechando a aplicação Tkinter...")
 
-
+    # Aguarda um tempo antes de fechar a interface
+    root.after(100, lambda: root.destroy())  # Aguarda 100ms para finalizar a operação antes de fechar
+    print("Aplicação encerrada.")
+    sys.exit()  # Após 100ms, encerra completamente o programa

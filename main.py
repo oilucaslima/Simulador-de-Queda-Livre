@@ -1,7 +1,7 @@
 import includes
 import functions as f
-import matplotlib.pyplot as plt
 import graph as g
+import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 # Configuração da porta serial
@@ -21,10 +21,17 @@ titulo.pack(pady=10)
 
 # Botão START
 def start_arduino():
-    valores = f.iniciar_arduino(arduino)
-    if valores:
-        tempo = list(range(len(valores)))  # Gera uma lista de tempo com base no número de valores
-        g.plotar_grafico_na_janela(root, tempo, valores, titulo="Posição vs. Tempo", xlabel="Tempo (s)", ylabel="Posição (m)")
+    tempo = f.iniciar_arduino(arduino)
+    if tempo:
+        posicao = [0,0.15,0.30,0.45,0.60,0.75,0.90]
+        # Gera uma lista de tempo com base no número de valores
+        g.plotar_grafico_na_janela(tempo, posicao, titulo="Posição vs. Tempo", xlabel="Tempo (s)", ylabel="Posição (m)")
+
+        velocidades = f.calcular_velocidade(tempo, posicao)
+        print("Velocidades calculadas:", velocidades)
+        g.plotar_grafico_na_janela_velocidade(tempo, velocidades, titulo="Velocidade vs. Tempo", xlabel="Tempo (s)", ylabel="Velocidade (m/s)")
+
+        #includes.messagebox.showinfo("Velocidades Calculadas", f"Velocidades calculadas: {velocidades}")
 
 btn_start = includes.tk.Button(root, text="Start", command=start_arduino, font=("Arial", 14), bg="green", fg="white")
 btn_start.pack(pady=10)

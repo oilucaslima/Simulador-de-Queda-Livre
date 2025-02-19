@@ -25,17 +25,15 @@ def calcular_e_plotar(valores):
     posicao = [0, 0.15, 0.30, 0.45, 0.60, 0.75, 0.90]
     # Gera uma lista de tempo com base no número de valores
     root.after(0, g.plotar_grafico_na_janela, valores, posicao, "Posição vs. Tempo", "Tempo (s)", "Posição (m)")
-    print("Até aqui...")
     velocidades = f.calcular_velocidade(valores, posicao)
-    print("Velocidades calculadas:", velocidades)
     root.after(0, g.plotar_grafico_na_janela_velocidade, valores[:-1], velocidades, "Velocidade vs. Tempo", "Tempo (s)", "Velocidade (m/s)")
 
 # Botão START
 def start_arduino():
-    print("Iniciando leitura do Arduino...")
+    #print("Iniciando leitura do Arduino...")
     valores = f.iniciar_arduino(arduino)
     if valores:
-        print("Valores recebidos:", valores)
+        #print("Valores recebidos:", valores)
         calcular_e_plotar(valores)
     else:
         print("Nenhum valor recebido do Arduino.")

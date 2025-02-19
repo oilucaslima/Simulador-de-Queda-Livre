@@ -16,7 +16,7 @@ def ler_dados_arduino(arduino):
                     if linha_decodificada.isdigit():
                         valores.append(int(linha_decodificada))
                         cont += 1
-                        print(f"Valor recebido: {linha_decodificada}")
+                        #print(f"Valor recebido: {linha_decodificada}")
                     else:
                         print(f"Mensagem ignorada: {linha_decodificada}")
                 except UnicodeDecodeError:
@@ -27,10 +27,10 @@ def ler_dados_arduino(arduino):
 
     # Exibe os valores capturados no final
     if valores:
-        includes.messagebox.showinfo("Valores Recebidos", f"Valores capturados: {valores}")
+        #includes.messagebox.showinfo("Valores Recebidos", f"Valores capturados: {valores}")
         return valores
     else:
-        includes.messagebox.showwarning("Aviso", "Nenhum valor foi recebido.")
+        #includes.messagebox.showwarning("Aviso", "Nenhum valor foi recebido.")
         return None
 
 def iniciar_arduino(arduino):

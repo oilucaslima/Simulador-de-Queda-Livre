@@ -22,7 +22,7 @@ titulo.pack(pady=10)
 
 # Função para calcular e plotar gráficos
 def calcular_e_plotar(valores):
-    posicao = [0, 0.15, 0.30, 0.45, 0.60, 0.75, 0.90]
+    posicao = [0, 0.07, 0.22, 0.37, 0.52, 0.67, 0.82]
     # Gera uma lista de tempo com base no número de valores
     root.after(0, g.plotar_grafico_na_janela, valores, posicao, "Posição vs. Tempo", "Tempo (s)", "Posição (m)")
     velocidades = f.calcular_velocidade(valores, posicao)

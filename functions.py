@@ -46,8 +46,13 @@ def iniciar_arduino(arduino):
 
 def calcular_velocidade(tempo, posicao):
     velocidades = []
-    for i in range(len(tempo)):
-        velocidade = posicao[i] / tempo[i] 
+    for i in range(1, len(tempo)):
+        delta_tempo = tempo[i] / 1_000_000 
+        delta_posicao = posicao[i]
+        if delta_tempo != 0:
+            velocidade = delta_posicao / delta_tempo
+        else:
+            velocidade = 0
         velocidades.append(velocidade)
     return velocidades
 

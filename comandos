@@ -1,0 +1,4 @@
+			Comandos importantes
+			
+			limpar buffer: stty -F /dev/ttyUSB1 hupcl
+			matar processo kill -9 PID (achar pelo ps)

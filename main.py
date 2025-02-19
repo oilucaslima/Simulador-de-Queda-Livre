@@ -3,6 +3,7 @@ import functions as f
 import graph as g
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import threading
 
 # Configuração da porta serial
 arduino = includes.serial.Serial(port='/dev/ttyUSB0', baudrate=9600, timeout=1)
@@ -19,19 +20,25 @@ root.geometry("400x400")  # Ajustei para acomodar o gráfico
 titulo = includes.tk.Label(root, text="Controle do Arduino", font=("Arial", 16))
 titulo.pack(pady=10)
 
+# Função para calcular e plotar gráficos
+def calcular_e_plotar(valores):
+    posicao = [0, 0.15, 0.30, 0.45, 0.60, 0.75, 0.90]
+    # Gera uma lista de tempo com base no número de valores
+    root.after(0, g.plotar_grafico_na_janela, valores, posicao, "Posição vs. Tempo", "Tempo (s)", "Posição (m)")
+    print("Até aqui...")
+    velocidades = f.calcular_velocidade(valores, posicao)
+    print("Velocidades calculadas:", velocidades)
+    root.after(0, g.plotar_grafico_na_janela_velocidade, valores[:-1], velocidades, "Velocidade vs. Tempo", "Tempo (s)", "Velocidade (m/s)")
+
 # Botão START
 def start_arduino():
-    tempo = f.iniciar_arduino(arduino)
-    if tempo:
-        posicao = [0,0.15,0.30,0.45,0.60,0.75,0.90]
-        # Gera uma lista de tempo com base no número de valores
-        g.plotar_grafico_na_janela(tempo, posicao, titulo="Posição vs. Tempo", xlabel="Tempo (s)", ylabel="Posição (m)")
-
-        velocidades = f.calcular_velocidade(tempo, posicao)
-        print("Velocidades calculadas:", velocidades)
-        g.plotar_grafico_na_janela_velocidade(tempo, velocidades, titulo="Velocidade vs. Tempo", xlabel="Tempo (s)", ylabel="Velocidade (m/s)")
-
-        #includes.messagebox.showinfo("Velocidades Calculadas", f"Velocidades calculadas: {velocidades}")
+    print("Iniciando leitura do Arduino...")
+    valores = f.iniciar_arduino(arduino)
+    if valores:
+        print("Valores recebidos:", valores)
+        calcular_e_plotar(valores)
+    else:
+        print("Nenhum valor recebido do Arduino.")
 
 btn_start = includes.tk.Button(root, text="Start", command=start_arduino, font=("Arial", 14), bg="green", fg="white")
 btn_start.pack(pady=10)

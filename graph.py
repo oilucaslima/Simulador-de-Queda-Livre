@@ -3,18 +3,20 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import tkinter as tk
 import numpy as np
 
-def plotar_grafico_na_janela_velocidade(x, y, titulo="Gráfico", xlabel="Eixo X", ylabel="Eixo Y"):
-    
-    x = np.array(x) / 1_000_000  # Converte o tempo de microssegundos para segundos
-
+def plotar_grafico_na_janela_velocidade(tempo, velocidades, titulo="Velocidade vs. Tempo", xlabel="Tempo (s)", ylabel="Velocidade (m/s)"):
+    """
+    Função para criar e exibir um gráfico de velocidade vs. tempo em uma nova janela Tkinter.
+    """
+    tempo = np.array(tempo) / 1_000_000 
     # Cria uma nova janela
     nova_janela = tk.Toplevel()
     nova_janela.title(titulo)
     nova_janela.geometry("600x400")
 
     fig, ax = plt.subplots(figsize=(5, 3))  
-    ax.plot(x, y, marker='o', linestyle='-', color='b', label="Velocidade vs. Tempo")
+    ax.plot(tempo, velocidades, marker='o', linestyle='-', color='b', label="Velocidade vs. Tempo")
 
+    # Configurando o gráfico
     ax.set_title(titulo, fontsize=12)
     ax.set_xlabel(xlabel, fontsize=10)
     ax.set_ylabel(ylabel, fontsize=10)
@@ -26,8 +28,12 @@ def plotar_grafico_na_janela_velocidade(x, y, titulo="Gráfico", xlabel="Eixo X"
     canvas.draw()
     canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
+    print("Gráfico de velocidade plotado com sucesso.")
+
     # Inicia o loop da nova janela
     nova_janela.mainloop()
+
+    print("Loop da nova janela de velocidade encerrado.")
 
 def plotar_grafico_na_janela(x, y, titulo="Gráfico", xlabel="Eixo X", ylabel="Eixo Y"):
     """
@@ -70,3 +76,6 @@ def plotar_grafico_na_janela(x, y, titulo="Gráfico", xlabel="Eixo X", ylabel="E
 
     # Inicia o loop da nova janela
     nova_janela.mainloop()
+
+    print("ate aqui 2:")
+
